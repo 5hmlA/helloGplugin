@@ -1,0 +1,61 @@
+
+pluginManagement {
+    repositories {
+        maven {
+            url uri('../repo')
+        }
+    }
+}
+
+gradle.settingsEvaluated {
+    println "settings：执行settingsEvaluated..."
+}
+
+gradle.projectsLoaded {
+    println "settings：执行projectsLoaded..."
+}
+
+gradle.projectsEvaluated {
+    println "settings: 执行projectsEvaluated..."
+}
+
+gradle.beforeProject { proj ->
+    println "settings：执行${proj.name} beforeProject"
+}
+
+gradle.afterProject { proj ->
+    println "settings：执行${proj.name} afterProject"
+}
+
+gradle.buildStarted {
+    println "构建开始..."
+}
+
+gradle.buildFinished {
+    println "构建结束..."
+}
+
+rootProject.name = "helloGplugin"
+include ':app'
+include ':myplugin'
+
+//对子模块进行配置
+
+
+//subprojects { sub ->
+//    println "子项目beforeEvaluate回调..."
+//    sub.beforeEvaluate { proj ->
+//        println "子项目beforeEvaluate回调..."
+//    }
+//}
+//
+//println "根项目配置开始---"
+//
+//task rootTest {
+//    println "根项目里任务配置---"
+//    doLast {
+//        println "执行根项目任务..."
+//    }
+//}
+//
+//println "根项目配置结束---"

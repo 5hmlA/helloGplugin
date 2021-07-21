@@ -1,0 +1,44 @@
+//apply plugin: 'groovy'
+//apply plugin: 'java'
+//apply plugin: 'org.jetbrains.kotlin.jvm'
+//apply plugin: 'maven'
+plugins {
+    id 'org.jetbrains.kotlin.jvm' version '1.4.0'
+    id 'java-gradle-plugin'
+}
+
+def kotlin_version = "1.5.21"
+dependencies {
+    implementation gradleApi()
+    implementation localGroovy()
+//    implementation "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+    implementation "com.android.tools.build:gradle:4.2.2"
+
+    implementation 'org.ow2.asm:asm:9.0'
+    implementation 'org.ow2.asm:asm-commons:7.0'
+    implementation 'org.ow2.asm:asm-analysis:7.0'
+    implementation 'org.ow2.asm:asm-util:7.0'
+    implementation 'org.ow2.asm:asm-tree:7.0'
+}
+repositories {
+    mavenCentral()
+    google()
+}
+
+group='jzy.gplugin'
+version='1.2.11'
+
+//java {
+//    sourceCompatibility = JavaVersion.VERSION_1_8
+//    targetCompatibility = JavaVersion.VERSION_1_8
+//}
+
+//定义插件  就不需要 resources/META-INF/gradle-plugins/*.properties文件了
+gradlePlugin {
+    plugins {
+        create("simplePlugin") {
+            id = "srcplugin"
+            implementationClass = "com.jzy.FirstGPlugin"
+        }
+    }
+}
