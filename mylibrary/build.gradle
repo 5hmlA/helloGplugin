@@ -1,43 +1,26 @@
-//buildscript {
-//    repositories {
-//        maven {
-//            url uri('../repo')
-//        }
-//    }
-//    dependencies {
-//        classpath "jzy.gplugin:myplugin:1.2.11"
-//    }
-//}
-
 plugins {
-    id 'com.android.application'
+    id 'com.android.library'
     id 'kotlin-android'
-    id 'srcplugin'
+//    id 'srcplugin'
     id 'kotlin-kapt'
 }
-
-//apply plugin: 'srcplugin'
 
 android {
     compileSdkVersion 30
     buildToolsVersion "30.0.3"
 
     defaultConfig {
-        applicationId "op.po.grplugin"
         minSdkVersion 22
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
-
-        testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        consumerProguardFiles "consumer-rules.pro"
 
         kapt {
             arguments {
                 arg("AROUTER_MODULE_NAME", project.getName())
             }
         }
-
-
     }
 
     buildTypes {
@@ -65,10 +48,10 @@ dependencies {
     implementation 'androidx.appcompat:appcompat:1.3.0'
     implementation 'com.google.android.material:material:1.4.0'
     implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation project(path: ':mylibrary')
-    implementation project(path: ':seclibrary')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
@@ -76,49 +59,6 @@ dependencies {
     kapt 'com.alibaba:arouter-compiler:1.5.2'
 }
 
-greeting {
-    message = 'Hi from Gradle again'
-}
-
-myArg {
-    message = 'Hi from project app '
-    sender = "jonas"
-
-    phone {
-        name = "xiao mi"
-        phone = 17706986713
-    }
-
-    inner {
-        name = "oppo reno 5"
-        phone = 13285960627
-    }
-
-    myBuildTypes {
-        first {
-        }
-
-        setcon {
-        }
-    }
-}
-
-apple {
-    name = "iphone x"
-    phone = 18069025006
-}
-
-//school {
-//    jiang {
-//        age = 30
-//    }
-//}
-
-task copy(type: Copy) {
-    into "$buildDir/copy"
-    from "$buildDir/hell.txt"
-}
-
 afterEvaluate {
-    println "----------- afterEvaluate in app project --------------"
+    println "----------- afterEvaluate in mylibrary project --------------"
 }

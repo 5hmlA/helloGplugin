@@ -1,6 +1,8 @@
 package com.jzy.usecase
 
 import com.android.build.gradle.AppExtension
+import com.android.build.gradle.AppPlugin
+import com.android.build.gradle.LibraryExtension
 import com.android.build.gradle.internal.dsl.BaseAppModuleExtension
 import com.jzy.transform.MyTransform
 import org.gradle.api.Plugin
@@ -39,9 +41,33 @@ class AndroidCase:Plugin<Project> {
             println("read data from gradle.properties > ${properties.getProperty("android.useAndroidX", "false")}")
         }
 
+        println("${project.name}  ${project.plugins.hasPlugin("com.android.application")}")
+        println("${project.name}  ${project.plugins.hasPlugin(AppPlugin::class.java)}")
+        println("${project.name}  ${project.plugins.hasPlugin(com.android.build.gradle.internal.plugins.AppPlugin::class.java)}")
 
-        val android = project.extensions.findByType(BaseAppModuleExtension::class.java)
+        //[DefaultTaskExecutionRequest{args=[assembleDebug],projectPath='null'}]
+        //[DefaultTaskExecutionRequest{args=[clean, assembleRelease],projectPath='null'}]
+
+        println(project.gradle.startParameter.taskRequests)
+        val taskRequests = project.gradle.startParameter.taskRequests
+        if (taskRequests.size > 0) {
+            val args = taskRequests[0].args
+            if (args.size > 0) {
+                val predicate: (String) -> Boolean = { it.toLowerCase().contains("release") }
+                if (args.any(predicate)) {
+                    println("=================== release 启用ARouter自动注册 =====================")
+                    val android = project.extensions.findByType(AppExtension::class.java)
+                    println("project name: ${project.name}  $android  ${android?.transforms}")
+                    android?.registerTransform(MyTransform(project))
+                }
+            }
+        }
+
+//        val android = project.extensions.findByType(BaseAppModuleExtension::class.java)
 //        val android = project.extensions.findByType(AppExtension::class.java)
-        android?.registerTransform(MyTransform(project))
+//        android?.registerTransform(MyTransform(project))
+//        println("project name: ${project.name}  $android  ${android?.transforms}")
+//        val libraryExtension = project.extensions.findByType(LibraryExtension::class.java)
+//        libraryExtension?.registerTransform(MyTransform(project))
     }
 }

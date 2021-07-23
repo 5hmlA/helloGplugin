@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+        package="op.po.seclibrary">
+
+    <application>
+        <activity
+                android:name=".NaviDrawableActivity"
+                android:label="@string/title_activity_navi_drawable"
+                android:theme="@style/Theme.Grplugin.NoActionBar"></activity>
+    </application>
+
+</manifest>

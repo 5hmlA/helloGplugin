@@ -35,7 +35,7 @@ gradle.buildFinished {
     println "构建结束..."
 }
 
-rootProject.name = "helloGplugin"
+rootProject.name = "grplugin"
 include ':app'
 include ':myplugin'
 
@@ -59,3 +59,5 @@ include ':myplugin'
 //}
 //
 //println "根项目配置结束---"
+include ':mylibrary'
+include ':seclibrary'

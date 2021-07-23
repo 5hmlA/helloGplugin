@@ -6,6 +6,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.appcompat.app.AppCompatActivity
 import com.alibaba.android.arouter.facade.annotation.Route
+import com.alibaba.android.arouter.launcher.ARouter
 import op.po.grplugin.R
 import op.po.grplugin.databinding.ActivityScrollingBinding
 
@@ -25,6 +26,7 @@ class ScrollingActivity : AppCompatActivity() {
         binding.fab.setOnClickListener { view ->
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
+            ARouter.getInstance().build("/lib/tabpage").navigation()
         }
     }
 }
