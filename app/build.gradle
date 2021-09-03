@@ -1,124 +1,81 @@
-//buildscript {
-//    repositories {
-//        maven {
-//            url uri('../repo')
-//        }
-//    }
-//    dependencies {
-//        classpath "jzy.gplugin:myplugin:1.2.11"
-//    }
-//}
+import java.util.concurrent.TimeUnit
 
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
-    id 'srcplugin'
-    id 'kotlin-kapt'
+    id 'jspark'
 }
 
-//apply plugin: 'srcplugin'
+def args = gradle.startParameter.getTaskRequests().args
+logger.quiet(" >>> gradle param ${args}")
+logger.quiet(" >>> ========================= ")
 
+tasks.whenTaskAdded { task ->
+    logger.quiet(" >>> task name : ${task.name}")
+    long timeStart = 0
+    task.doFirst{
+        timeStart = System.nanoTime()
+    }
+    task.doLast{
+        logger.quiet(" >>> task consume : ${TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - timeStart)} s")
+    }
+}
 android {
-    compileSdkVersion 30
-    buildToolsVersion "30.0.3"
+    compileSdkVersion BuildConfig.compileSdkVersion
 
     defaultConfig {
-        applicationId "op.po.grplugin"
-        minSdkVersion 22
+        applicationId "op.po.tellu"
+        minSdkVersion 23
         targetSdkVersion 30
         versionCode 1
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
-
-        kapt {
-            arguments {
-                arg("AROUTER_MODULE_NAME", project.getName())
-            }
-        }
-
-
     }
 
     buildTypes {
         release {
             minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            proguardFiles(getDefaultProguardFile("proguard-android-optimize.txt"),"proguard-rules.pro")
         }
     }
+
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
     }
+
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '11'
     }
+
     buildFeatures {
         viewBinding true
     }
 }
 
+//https://developer.android.google.cn/kotlin/ktx
 dependencies {
 
+    def kotlin_version = "1.5.21"
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation 'androidx.core:core-ktx:1.6.0'
-    implementation 'androidx.appcompat:appcompat:1.3.0'
+    implementation 'androidx.appcompat:appcompat:1.3.1'
     implementation 'com.google.android.material:material:1.4.0'
-    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
+    implementation 'androidx.constraintlayout:constraintlayout:2.1.0'
+    implementation 'androidx.lifecycle:lifecycle-livedata-ktx:2.3.1'
+    implementation 'androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.3.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.3.5'
-    implementation project(path: ':mylibrary')
-    implementation project(path: ':seclibrary')
+    implementation project(path: ':tellu')
+    implementation project(path: ':uispark')
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    implementation 'com.alibaba:arouter-api:1.5.2'
-    kapt 'com.alibaba:arouter-compiler:1.5.2'
+
+//    debugImplementation 'io.github.didi.dokit:dokitx:+'
+//    releaseImplementation 'io.github.didi.dokit:dokitx-no-op:+'
 }
 
-greeting {
-    message = 'Hi from Gradle again'
-}
 
-myArg {
-    message = 'Hi from project app '
-    sender = "jonas"
-
-    phone {
-        name = "xiao mi"
-        phone = 17706986713
-    }
-
-    inner {
-        name = "oppo reno 5"
-        phone = 13285960627
-    }
-
-    myBuildTypes {
-        first {
-        }
-
-        setcon {
-        }
-    }
-}
-
-apple {
-    name = "iphone x"
-    phone = 18069025006
-}
-
-//school {
-//    jiang {
-//        age = 30
-//    }
-//}
-
-task copy(type: Copy) {
-    into "$buildDir/copy"
-    from "$buildDir/hell.txt"
-}
-
-afterEvaluate {
-    println "----------- afterEvaluate in app project --------------"
-}
+println(" ================================================= app >> $project ${project.ext} ${project.ext.properties}")

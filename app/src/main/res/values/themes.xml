@@ -1,6 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Theme.Grplugin" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.Tellu" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/purple_500</item>
         <item name="colorPrimaryVariant">@color/purple_700</item>
@@ -14,12 +14,14 @@
         <!-- Customize your theme here. -->
     </style>
 
-    <style name="Theme.Grplugin.NoActionBar">
+    <style name="Theme.Tellu.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:statusBarColor" tools:targetApi="l">@android:color/transparent</item>
     </style>
 
-    <style name="Theme.Grplugin.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+    <style name="Theme.Tellu.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
-    <style name="Theme.Grplugin.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+    <style name="Theme.Tellu.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

@@ -1,0 +1,17 @@
+package com.haibin.calendarview;
+
+import jzy.spark.tellu.convert.SolarTermUtil;
+
+import org.junit.Test;
+
+/**
+ * 24节气单元测试
+ * Created by huanghaibin on 2018/2/9.
+ */
+public class SolarTermUtilTest {
+    @Test
+    public void getSolarTerms() throws Exception {
+        SolarTermUtil.getSolarTerms(2017);
+    }
+
+}
