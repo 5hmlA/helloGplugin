@@ -1,9 +1,9 @@
-package com.spark.wizard
+package com.spark.review.wizard
 
-import com.spark.Constants
+import com.spark.JConstants
+import com.spark.sout
 import org.objectweb.asm.*
 import java.io.File
-import java.io.InputStream
 import java.util.jar.JarEntry
 
 /**
@@ -16,31 +16,31 @@ import java.util.jar.JarEntry
 class ActivityMagic2 : IWizard() {
 
     override fun transformStart() {
-        println(" ... $this >> transformStart ")
+        " ... $this >> transformStart ".sout()
     }
 
     override fun checkIfJarMatches(srcJarFile: File, destJarFile: File): Boolean {
-        return srcJarFile.name.equals(Constants.moduleClassName)
+        return srcJarFile.name.equals(JConstants.moduleClassName)
     }
 
     override fun checkIfJarEntryMatches(srcJarEntry: JarEntry, srcJarFile: File, destJarFile: File): Boolean {
         return srcJarEntry.name.endsWith("Activity.class")
     }
 
-    override fun transformJar(inputStream: InputStream): ByteArray {
-        return transformFile(inputStream)
+    override fun transformJarEntry(classFileByte: ByteArray): ByteArray {
+        return transformFile(classFileByte)
     }
 
-    override fun checkIfFileMatches(srcFile: File, destFile: File): Boolean {
+    override fun checkIfFileMatches(srcFile: File, destFile: File, srcDirectory: File): Boolean {
         if (srcFile.name.endsWith("Activity.class")) {
-            println(" ... $this >> handleWithFile ${srcFile.name} ")
+            " ... $this >> handleWithFile ${srcFile.name} ".sout()
             return true
         }
         return false
     }
 
-    override fun transformFile(inputStream: InputStream): ByteArray {
-        val classReader = ClassReader(inputStream)
+    override fun transformFile(classFileByte: ByteArray): ByteArray {
+        val classReader = ClassReader(classFileByte)
         val classWriter = ClassWriter(classReader, ClassWriter.COMPUTE_MAXS)
         val lifecycleClassVisitor = LifecycleClassVisitor(classVisitor = classWriter)
         classReader.accept(lifecycleClassVisitor, ClassReader.EXPAND_FRAMES)
@@ -48,7 +48,7 @@ class ActivityMagic2 : IWizard() {
     }
 
     override fun transformEnd() {
-        println(" ... $this >> transformEnd ")
+        " ... $this >> transformEnd ".sout()
     }
 
 
